@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     public event EventHandler OnInteraction;
+    public event EventHandler OnInteractAlternate; 
     private PlayerInputAction playerInputAction;
     // Start is called before the first frame update
     private void Awake()
@@ -14,7 +15,14 @@ public class GameInput : MonoBehaviour
         playerInputAction = new PlayerInputAction();
         playerInputAction.Player.Enable();
         playerInputAction.Player.Interact.performed += InteractPerformed;
+        playerInputAction.Player.InteractAlternet.performed += InteractAlternate_Performed;
     }
+
+    private void InteractAlternate_Performed(InputAction.CallbackContext obj)
+    {
+        OnInteractAlternate?.Invoke(this , EventArgs.Empty);
+    }
+
     private void InteractPerformed(InputAction.CallbackContext obj)
     {
        OnInteraction?.Invoke(this , EventArgs.Empty);

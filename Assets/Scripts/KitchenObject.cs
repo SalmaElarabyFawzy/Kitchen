@@ -4,31 +4,41 @@ using UnityEngine;
 
 public class KitchenObject : MonoBehaviour
 {
-  [SerializeField] private KitchenObjectSO kitchenObjectSo;
-  [SerializeField] private ClearCounter clearCounter;
+  [SerializeField] private KitchenObjectSO kitchenObjectBlock;
+  [SerializeField] private KitchenObjectSO kitchenObjectSlices;
+  private IKitchenObjectParent kitchenObjectParent;
 
-  public ClearCounter ClearCounter
+  public IKitchenObjectParent KitchenObjectParent
   {
-    get { return clearCounter; }
+    get { return KitchenObjectParent; }
     set
     {
-      ClearCounter _clearCounter = value;
-      if(clearCounter is not null)
-        clearCounter.KitchenObject = null;
+      if(kitchenObjectParent is not null)
+        kitchenObjectParent.KitchenObject = null;
       
-      clearCounter = _clearCounter;
-      Debug.Log(clearCounter.name);
-      if(clearCounter.KitchenObject is not null)
+      kitchenObjectParent = value;
+      
+      if(kitchenObjectParent.KitchenObject is not null)
       {
         Debug.Log("This counter has already kitchen object !!");
       }
-
-      clearCounter.KitchenObject = this;
-      transform.parent = clearCounter.ClearCounterTop;
+  
+      kitchenObjectParent.KitchenObject = this;
+      transform.parent = kitchenObjectParent.KitchenObjectFollowTransform;
       transform.localPosition = Vector3.zero;
 
     }
     
+  }
+  public void SelfDestroy()
+  {
+    kitchenObjectParent.KitchenObject = null;
+    Destroy(gameObject);
+  }
+
+  public KitchenObjectSO KitchenObjectSlices
+  {
+    get { return kitchenObjectSlices; }
   }
 
 
