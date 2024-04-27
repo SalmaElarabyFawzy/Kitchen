@@ -3,17 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class OnChangeSelectedCounterEventArgs : EventArgs
 {
-    public BaseCounter selectedCounter { get; private set; }
+    public BaseCounter SelectedCounter { get; private set; }
 
     public OnChangeSelectedCounterEventArgs(BaseCounter selectedCounter)
     {
-        this.selectedCounter = selectedCounter;
+        SelectedCounter = selectedCounter;
     }
 }
-
 public class Player : MonoBehaviour,IKitchenObjectParent
 {
     public static Player Instance { get; private set; }
@@ -39,6 +37,7 @@ public class Player : MonoBehaviour,IKitchenObjectParent
     private KitchenObject _kitchenObject;
 
     public event EventHandler<OnChangeSelectedCounterEventArgs> OnChangeSelectedCounter;
+
     
     private void Awake()
     {
